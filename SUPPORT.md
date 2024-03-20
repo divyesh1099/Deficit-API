@@ -28,4 +28,4 @@ These are not appropriate avenues for seeking help or support with an open-sourc
 
 ## Customer Support
 
-I do not provide any sort of "customer support" for open-source projects. However, I am available for hire. For details on contracting and consulting, visit [Divyesh Vishwakarma's Profile](https://motidivya-6cc24.web.app/).
+I do not provide any sort of "customer support" for open-source projects. However, I am available for hire. For details on contracting and consulting, visit <a href="https://motidivya-6cc24.web.app/" target="_blank">Divyesh Vishwakarma's Profile</a>.
