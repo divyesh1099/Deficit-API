@@ -4,9 +4,10 @@ from rest_framework import status, views
 from rest_framework.response import Response
 from home.serializers import UserSerializer
 from rest_framework import generics
-from .models import UserFood
-from .serializers import UserFoodSerializer
+from .models import *
+from .serializers import *
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
 
 def index(requests):
     return render(requests, 'home/index.html')
@@ -49,3 +50,9 @@ class UserFoodRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
             user_food.delete()  # Delete the user food entry
             return Response({'detail': 'User food entry deleted because amount was set to 0.'}, status=status.HTTP_204_NO_CONTENT)
         return super().update(request, *args, **kwargs)
+    
+class FoodList(APIView):
+    def get(self, request, format=None):
+        foods = Food.objects.all()
+        serializer = FoodSerializer(foods, many=True)
+        return Response(serializer.data)

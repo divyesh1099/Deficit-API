@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import UserFood
+from .models import *
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -17,3 +17,8 @@ class UserFoodSerializer(serializers.ModelSerializer):
         model = UserFood
         fields = ['id', 'user', 'food', 'amount', 'consumed_datetime']
         read_only_fields = ('user',)
+
+class FoodSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Food
+        fields = ['id', 'name', 'unit', 'calories_per_unit']
