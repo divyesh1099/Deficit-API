@@ -64,7 +64,11 @@ Here's a summary of the API endpoints for managing user-added foods, formatted i
 | PUT    | `/userfoods/<int:id>/`  | `{ "food": 1, "amount": 150 }`                    | `Authorization: Token <your_token>` <br> `Content-Type: application/json` | Update an entire specific user food entry.  |
 | PATCH  | `/userfoods/<int:id>/`  | `{ "amount": 120 }`                               | `Authorization: Token <your_token>` <br> `Content-Type: application/json` | Partially update a specific user food entry.|
 | DELETE | `/userfoods/<int:id>/`  | None                                              | `Authorization: Token <your_token>`         | Delete a specific user food entry.          |
+
+
 (exercise APIs are yet to be added)
+
+
 **Notes**:
 
 - Replace `<int:id>` with the actual ID of the user food entry you want to interact with.
@@ -94,7 +98,7 @@ Detailed instructions are available on [PythonAnywhere Help](https://help.python
 
 ## Contributing
 
-Please read [CONTRIBUTING.md](https://github.com/divyesh1099/Deficit-API/CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
+Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our code of conduct, and the process for submitting pull requests to us.
 
 ## Authors
 
