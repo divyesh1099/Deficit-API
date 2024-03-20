@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.shortcuts import render
 from rest_framework import status, views
 from rest_framework.response import Response
 from home.serializers import UserSerializer
@@ -6,6 +7,9 @@ from rest_framework import generics
 from .models import UserFood
 from .serializers import UserFoodSerializer
 from rest_framework.permissions import IsAuthenticated
+
+def index(requests):
+    return render(requests, 'home/index.html')
 
 class UserCreate(views.APIView):
     def post(self, request):
