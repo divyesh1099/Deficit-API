@@ -32,7 +32,7 @@ Before [creating an issue](https://help.github.com/en/github/managing-your-work-
 
 ### :lock: Reporting Security Issues
 
-Review our [Security Policy](https://github.com/divyesh1099/Deficit-API/SECURITY.md). **Do not** file a public issue for security vulnerabilities.
+Review our [Security Policy](./SECURITY.md). **Do not** file a public issue for security vulnerabilities.
 
 ### :beetle: Bug Reports and Other Issues
 
