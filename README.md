@@ -54,20 +54,29 @@ A step-by-step series of examples that tell you how to get a development environ
 
 ### Using the API
 
-Here's a summary of the API endpoints for managing user-added foods, formatted in a tabular view. This table assumes you are running the Django server locally and using the default development URL (`http://127.0.0.1:8000/`). Adjust as necessary for your actual environment, especially when deployed:
+Here's a summary of the API endpoints for managing user-added foods and exercises, formatted in a tabular view. This table assumes you are running the Django server locally and using the default development URL (`http://127.0.0.1:8000/`). Adjust as necessary for your actual environment, especially when deployed:
+
+#### Food Management
 
 | Method | API Endpoint                | Body                                              | Headers                 | Description                                  |
 |--------|-----------------------------|---------------------------------------------------|-------------------------|----------------------------------------------|
-| POST   | `/userfoods/`           | `{ "food": 1, "amount": 100 }`                    | `Authorization: Token <your_token>` <br> `Content-Type: application/json` | Create a new user food entry.                |
-| GET    | `/userfoods/`           | None                                              | `Authorization: Token <your_token>`         | Retrieve a list of all food entries for the authenticated user. |
-| GET    | `/userfoods/<int:id>/`  | None                                              | `Authorization: Token <your_token>`         | Retrieve a specific user food entry by its ID. |
-| PUT    | `/userfoods/<int:id>/`  | `{ "food": 1, "amount": 150 }`                    | `Authorization: Token <your_token>` <br> `Content-Type: application/json` | Update an entire specific user food entry.  |
-| PATCH  | `/userfoods/<int:id>/`  | `{ "amount": 120 }`                               | `Authorization: Token <your_token>` <br> `Content-Type: application/json` | Partially update a specific user food entry.|
-| DELETE | `/userfoods/<int:id>/`  | None                                              | `Authorization: Token <your_token>`         | Delete a specific user food entry.          |
+| POST   | `/userfoods/`               | `{ "food": 1, "amount": 100 }`                    | `Authorization: Token <your_token>` <br> `Content-Type: application/json` | Create a new user food entry.                |
+| GET    | `/userfoods/`               | None                                              | `Authorization: Token <your_token>`         | Retrieve a list of all food entries for the authenticated user. |
+| GET    | `/userfoods/<int:id>/`      | None                                              | `Authorization: Token <your_token>`         | Retrieve a specific user food entry by its ID. |
+| PUT    | `/userfoods/<int:id>/`      | `{ "food": 1, "amount": 150 }`                    | `Authorization: Token <your_token>` <br> `Content-Type: application/json` | Update an entire specific user food entry.  |
+| PATCH  | `/userfoods/<int:id>/`      | `{ "amount": 120 }`                               | `Authorization: Token <your_token>` <br> `Content-Type: application/json` | Partially update a specific user food entry.|
+| DELETE | `/userfoods/<int:id>/`      | None                                              | `Authorization: Token <your_token>`         | Delete a specific user food entry.          |
 
+#### Exercise Tracking
 
-(exercise APIs are yet to be added)
-
+| Method | API Endpoint                 | Body                                                     | Headers                 | Description                                      |
+|--------|------------------------------|----------------------------------------------------------|-------------------------|--------------------------------------------------|
+| POST   | `/userexercises/`            | `{ "exercise": 1, "duration": 30 }`                      | `Authorization: Token <your_token>` <br> `Content-Type: application/json` | Create a new user exercise entry.                |
+| GET    | `/userexercises/`            | None                                                     | `Authorization: Token <your_token>`         | Retrieve a list of all exercise entries for the authenticated user. |
+| GET    | `/userexercises/<int:id>/`   | None                                                     | `Authorization: Token <your_token>`         | Retrieve a specific user exercise entry by its ID. |
+| PUT    | `/userexercises/<int:id>/`   | `{ "exercise": 1, "duration": 45 }`                      | `Authorization: Token <your_token>` <br> `Content-Type: application/json` | Update an entire specific user exercise entry.  |
+| PATCH  | `/userexercises/<int:id>/`   | `{ "duration": 25 }`                                     | `Authorization: Token <your_token>` <br> `Content-Type: application/json` | Partially update a specific user exercise entry.|
+| DELETE | `/userexercises/<int:id>/`   | None                                                     | `Authorization: Token <your_token>`         | Delete a specific user exercise entry.          |
 
 **Notes**:
 

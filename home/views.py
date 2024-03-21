@@ -56,3 +56,42 @@ class FoodList(APIView):
         foods = Food.objects.all()
         serializer = FoodSerializer(foods, many=True)
         return Response(serializer.data)
+    
+
+class ExerciseList(APIView):
+    def get(self, request, format=None):
+        exercises = Exercise.objects.all()
+        serializer = ExerciseSerializer(exercises, many=True)
+        return Response(serializer.data)
+    
+# List and create user exercises
+class UserExerciseListCreate(generics.ListCreateAPIView):
+    queryset = UserExercise.objects.all()
+    serializer_class = UserExerciseSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        # Ensure a user sees only their own exercise entries
+        return UserExercise.objects.filter(user=self.request.user)
+
+    def perform_create(self, serializer):
+        # Automatically set the user to the current user
+        serializer.save(user=self.request.user)
+
+# Retrieve, Update, Delete UserExercise
+class UserExerciseRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = UserExercise.objects.all()
+    serializer_class = UserExerciseSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        # Ensure a user can only manipulate their own exercise entries
+        return UserExercise.objects.filter(user=self.request.user)
+    
+    def update(self, request, *args, **kwargs):
+        user_exercise = self.get_object()
+        # Check if 'duration' is in the request and if it is set to 0
+        if 'duration' in request.data and request.data['duration'] == 0:
+            user_exercise.delete()  # Delete the user exercise entry
+            return Response({'detail': 'User exercise entry deleted because duration was set to 0.'}, status=status.HTTP_204_NO_CONTENT)
+        return super().update(request, *args, **kwargs)

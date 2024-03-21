@@ -22,3 +22,14 @@ class FoodSerializer(serializers.ModelSerializer):
     class Meta:
         model = Food
         fields = ['id', 'name', 'unit', 'calories_per_unit']
+
+class ExerciseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Exercise
+        fields = ['id', 'name', 'unit', 'calories_burnt_per_unit']
+
+class UserExerciseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserExercise
+        fields = ['id', 'user', 'exercise', 'duration', 'performed_datetime']
+        read_only_fields = ('user',)
