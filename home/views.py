@@ -41,14 +41,19 @@ class UserFoodRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         # Ensure a user can only update their own food entries
-        return UserFood.objects.filter(user=self.request.user)
+        return UserFood.objects.filter(user=self.request.user).exclude(amount=0)
     
     def update(self, request, *args, **kwargs):
         user_food = self.get_object()
-        # Check if 'amount' is in the request and if it is set to 0
-        if 'amount' in request.data and request.data['amount'] == 0:
-            user_food.delete()  # Delete the user food entry
-            return Response({'detail': 'User food entry deleted because amount was set to 0.'}, status=status.HTTP_204_NO_CONTENT)
+        # Ensure 'amount' is interpreted as an integer
+        if 'amount' in request.data:
+            try:
+                amount = int(request.data['amount'])
+                if amount == 0:
+                    user_food.delete()
+                    return Response({'detail': 'User food entry deleted because amount was set to 0.'}, status=status.HTTP_204_NO_CONTENT)
+            except ValueError:  # In case the amount is not a valid integer
+                return Response({'error': 'Amount must be an integer.'}, status=status.HTTP_400_BAD_REQUEST)
         return super().update(request, *args, **kwargs)
     
 class FoodList(APIView):
