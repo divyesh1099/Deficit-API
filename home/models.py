@@ -26,7 +26,6 @@ class Exercise(models.Model):
 
     def __str__(self):
         return self.name
-    
 
 class UserExercise(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='user_exercises')
@@ -36,3 +35,15 @@ class UserExercise(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s {self.exercise.name} on {self.performed_datetime}"
+    
+class DailyCalorieRecord(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='daily_calories')
+    date = models.DateField()
+    total_calories = models.IntegerField()
+
+    class Meta:
+        unique_together = [['user', 'date']]
+        ordering = ['-date']
+
+    def __str__(self):
+        return f'{self.user.username} - {self.date} - {self.total_calories} calories'

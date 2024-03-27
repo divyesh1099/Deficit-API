@@ -33,3 +33,8 @@ class UserExerciseSerializer(serializers.ModelSerializer):
         model = UserExercise
         fields = ['id', 'user', 'exercise', 'duration', 'performed_datetime']
         read_only_fields = ('user',)
+
+class DailyCalorieRecordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DailyCalorieRecord
+        fields = ['id', 'user', 'date', 'total_calories']

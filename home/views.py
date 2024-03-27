@@ -95,3 +95,22 @@ class UserExerciseRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
             user_exercise.delete()  # Delete the user exercise entry
             return Response({'detail': 'User exercise entry deleted because duration was set to 0.'}, status=status.HTTP_204_NO_CONTENT)
         return super().update(request, *args, **kwargs)
+    
+class DailyCalorieRecordListCreate(generics.ListCreateAPIView):
+    queryset = DailyCalorieRecord.objects.all()
+    serializer_class = DailyCalorieRecordSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
+
+class DailyCalorieRecordRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
+    queryset = DailyCalorieRecord.objects.all()
+    serializer_class = DailyCalorieRecordSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return self.queryset.filter(user=self.request.user)
