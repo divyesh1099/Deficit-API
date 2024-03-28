@@ -12,4 +12,5 @@ urlpatterns = [
     path('userexercises/<int:pk>/', views.UserExerciseRetrieveUpdateDestroy.as_view(), name='userexercise-detail'),
     path('calories/', views.DailyCalorieRecordListCreate.as_view(), name='calorie-record-list-create'),
     path('calories/<int:pk>/', views.DailyCalorieRecordRetrieveUpdateDestroy.as_view(), name='calorie-record-detail'),
+    path('calories/<str:date>/', views.CalorieRecordByDateView.as_view(), name='calorie_record_by_date'),
 ]

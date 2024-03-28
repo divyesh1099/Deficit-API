@@ -8,6 +8,11 @@ from .models import *
 from .serializers import *
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
+from django.utils.timezone import localtime
+from django.http import Http404
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 def index(requests):
     return render(requests, 'home/index.html')
@@ -30,8 +35,19 @@ class UserFoodListCreate(generics.ListCreateAPIView):
         return UserFood.objects.filter(user=self.request.user)
 
     def perform_create(self, serializer):
-        # Automatically set the user to the current user
-        serializer.save(user=self.request.user)
+        user_food = serializer.save(user=self.request.user)  # Save to get the instance
+        self.update_daily_calories(user_food, created=True)
+
+    def update_daily_calories(self, user_food, created):
+        consumed_date = localtime(user_food.consumed_datetime).date()
+        daily_calorie_record, _ = DailyCalorieRecord.objects.get_or_create(
+            user=user_food.user, 
+            date=consumed_date,
+            defaults={'total_calories': 0}
+        )
+        if created:
+            daily_calorie_record.total_calories += user_food.amount * user_food.food.calories_per_unit
+            daily_calorie_record.save()
 
 # Retrieve, Update, Delete UserFood
 class UserFoodRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIView):
@@ -119,3 +135,22 @@ class DailyCalorieRecordRetrieveUpdateDestroy(generics.RetrieveUpdateDestroyAPIV
 
     def get_queryset(self):
         return self.queryset.filter(user=self.request.user)
+
+
+class CalorieRecordByDateView(APIView):
+    """
+    Fetch the calorie record for the current user by date.
+    """
+    permission_classes = [IsAuthenticated]
+
+    @method_decorator(csrf_exempt)
+    def get(self, request, date):
+        user = request.user
+        try:
+            calorie_record = DailyCalorieRecord.objects.get(user=user, date=date)
+            return JsonResponse({
+                'date': date,
+                'total_calories': calorie_record.total_calories
+            })
+        except DailyCalorieRecord.DoesNotExist:
+            raise Http404("No calorie record found for this date.")
