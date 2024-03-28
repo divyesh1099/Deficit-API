@@ -71,10 +71,39 @@ class UserExercise(models.Model):
     def __str__(self):
         return f"{self.user.username}'s {self.exercise.name} on {self.performed_datetime}"
     
+    def update_daily_calories(self):
+        date = self.performed_datetime.date()
+        daily_calorie_record, created = DailyCalorieRecord.objects.get_or_create(
+            user=self.user, 
+            date=date,
+            defaults={'total_calories': 0}
+        )
+        total_calories_burned_for_day = UserExercise.objects.filter(
+            user=self.user, 
+            performed_datetime__date=date
+        ).aggregate(
+            total=Sum(F('duration') * F('exercise__calories_burnt_per_unit'))
+        )['total'] or 0
+
+        daily_calorie_record.total_calories -= total_calories_burned_for_day
+        daily_calorie_record.save()
+
+    def save(self, *args, **kwargs):
+        super(UserExercise, self).save(*args, **kwargs)
+        self.update_daily_calories()
+
+    def delete(self, *args, **kwargs):
+        super(UserExercise, self).delete(*args, **kwargs)
+        self.update_daily_calories()
+
+@receiver(post_delete, sender=UserExercise)
+def update_daily_calories_on_delete(sender, instance, **kwargs):
+    instance.update_daily_calories()
+    
 class DailyCalorieRecord(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='daily_calories')
     date = models.DateField()
-    total_calories = models.IntegerField()
+    total_calories = models.IntegerField(default=2000)
 
     class Meta:
         unique_together = [['user', 'date']]
