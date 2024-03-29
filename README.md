@@ -4,7 +4,8 @@
 Deficit-API is a Django-based RESTful API designed to track and manage dietary intake, specifically focusing on caloric intake and expenditure. It allows users to maintain a log of foods consumed and exercises performed to manage their caloric deficit effectively.
 
 ## Live Hosting
-This API is hosted live using pythonanywhere to [MotiDivya Deficit API](https://divyeshdeficit.pythonanywhere.com/)
+- The Frontend is hosted using [Netlify](https://www.netlify.com/) on [MotiDivya Deficit Web App](https://astounding-dieffenbachia-676667.netlify.app/)
+- This API is hosted live using pythonanywhere to [MotiDivya Deficit API](https://divyeshdeficit.pythonanywhere.com/)
 
 ## Features
 
